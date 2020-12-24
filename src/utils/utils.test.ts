@@ -11,3 +11,14 @@ test("isDate() - basic functionality", () => {
   expect(isDate(false)).toBe(false);
   expect(isDate("12/12/2012")).toBe(false);
 });
+
+describe("monthDiff function", () => {
+  it("works correctly", () => {
+    expect(monthDiff(new Date(), new Date("12/23/2021"))).toBe(12);
+  });
+  it("handle errors", () => {
+    expect(() =>
+      monthDiff(new Date("asdasdasd"), new Date("asdasdasd"))
+    ).toThrow();
+  });
+});
