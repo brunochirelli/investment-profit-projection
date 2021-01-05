@@ -1,14 +1,14 @@
+import { Container } from "@material-ui/core";
+import Investment from "components/Investment";
 import React from "react";
-import MainTable from "../components/MainTable";
-import { futureValue } from "../utils/formulas";
+import InvestmentForm from "../components/InvestmentForm";
 
 const Home = () => {
-  const fv = futureValue(0.12, 12, -1000);
   return (
-    <div>
-      <MainTable />
-      <h1>{fv}</h1>
-    </div>
+    <Container maxWidth="sm">
+      <InvestmentForm />
+      <Investment />
+    </Container>
   );
 };
 
