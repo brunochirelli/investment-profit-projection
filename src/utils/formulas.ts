@@ -32,5 +32,29 @@ export const futureValue = (
   } else {
     fv = -1 * (pv + pmt * nper);
   }
-  return fv;
+  return Number(fv.toFixed(2));
+};
+
+export const incomeTaxCalculator = (days: number): number => {
+  if (typeof days === "number") {
+    if (days <= 180) {
+      return 0.225;
+    }
+
+    if (days > 180 && days <= 360) {
+      return 0.2;
+    }
+
+    if (days > 360 && days <= 720) {
+      return 0.175;
+    }
+
+    if (days > 720) {
+      return 0.15;
+    }
+  } else {
+    throw new Error(`days should be a number. Instead receive: ${typeof days}`);
+  }
+
+  return days;
 };
