@@ -28,3 +28,40 @@ export const monthDiff = (d1: Date, d2: Date): number => {
     throw Error("Invalid input, expects only instances of Date");
   }
 };
+
+/**
+ * Get the difference of days between two dates
+ *
+ * @param   {string | Date} d1  Start date.
+ * @param   {string | Date} d2  End date.
+ * @returns {number}            Difference in days
+ */
+export const dayDiff = (d1: Date, d2: Date): number => {
+  let time;
+  let days;
+
+  if (isDate(d1) && isDate(d2)) {
+    // Time difference
+    time = d2.getTime() - d1.getTime();
+
+    // Number of days based on time difference
+    days = time / (1000 * 3600 * 24);
+
+    return days;
+  } else {
+    throw Error("Invalid input, expects only instances of Date");
+  }
+};
+
+/**
+ * Convert a number into currency format
+ *
+ * @param {Number} number Number to be converted
+ * @return {String} The number converted
+ */
+export const numberToCurrency = (number: number): string => {
+  return new Intl.NumberFormat("pt-Br", {
+    style: "currency",
+    currency: "BRL",
+  }).format(number);
+};
