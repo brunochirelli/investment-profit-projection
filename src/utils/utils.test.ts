@@ -60,13 +60,9 @@ describe("dayDiff basic functionality", () => {
 
 describe("numberToCurrency basic functionality", () => {
   it("should return the correct format", () => {
-    // Function
-    const expected = new Intl.NumberFormat("pt-Br", {
-      style: "currency",
-      currency: "BRL",
-    }).format(1234000000.5);
-
-    expect(numberToCurrency(1234000000.5)).toBe(expected);
+    // depends on node 13+
+    expect(numberToCurrency(1234)).toMatch(/1.234,00/);
+    expect(numberToCurrency(1234000000.5)).toMatch(/1.234.000.000,50/);
   });
 
   it("should output the correct string on screen", () => {
