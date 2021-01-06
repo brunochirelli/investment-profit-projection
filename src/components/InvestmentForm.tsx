@@ -1,4 +1,4 @@
-import { Box } from "@material-ui/core";
+import { Button, Grid, InputAdornment, TextField } from "@material-ui/core";
 import React, { useContext } from "react";
 import { useForm } from "react-hook-form";
 import { DataContext } from "store/DataProvider";
@@ -10,16 +10,18 @@ import { FormStyled } from "./InvestmentForm.styled";
 
 /**
  * @component
- * The Objective of this component is to
- * -  get input from the user
- * -  do the calculations
- * -  insert into the screen
  */
 
-const DataForm = () => {
+type DataFormProps = {
+  collapseForm: (expanded: boolean) => void;
+};
+
+const DataForm = ({ collapseForm }: DataFormProps) => {
   const { dispatch } = useContext(DataContext);
 
-  const { register, handleSubmit, errors } = useForm();
+  const { register, handleSubmit, errors } = useForm<InvestmentInputs>({
+    defaultValues: { presentValue: 0 },
+  });
 
   const onSubmit = (data: InvestmentInputs) => {
     // Data to calculate future value
@@ -31,105 +33,165 @@ const DataForm = () => {
     const fv = futureValue(rate, nper, pmt, pv);
 
     // Data to calculate income tax
+    const profit = fv - futureValue(0, nper, pmt, pv);
     const days = dayDiff(new Date(data.startDate), new Date(data.endDate));
     const irPercent = incomeTaxCalculator(days);
-    const irValue = irPercent * fv;
+    const irValue = profit * irPercent;
 
     // Net profit
     const netProfit = fv - irValue;
 
     dispatch({
       type: "ADD_DATA",
-      payload: { ...data, futureValue: fv, irPercent, irValue, netProfit },
+      payload: {
+        ...data,
+        futureValue: fv,
+        irPercent,
+        irValue,
+        netProfit,
+        profit,
+        isCalculated: true,
+      },
     });
+
+    collapseForm(false);
   };
 
   return (
-    <div>
+    <>
       <FormStyled onSubmit={handleSubmit(onSubmit)}>
-        <div>
-          <label htmlFor="investment-name">Nome do Investimento</label>
-          <input
-            type="text"
-            name="investmentName"
-            id="investment-name"
-            ref={register({ required: true })}
-          />
-          {errors.investmentName && (
-            <span data-testid="error-msg">Investment name is required</span>
-          )}
-        </div>
-
-        <Box display="flex">
-          <div>
-            <label htmlFor="start-date">Data de início</label>
-            <input
-              type="date"
-              name="startDate"
-              id="start-date"
-              ref={register({ required: true })}
+        <Grid container spacing={2}>
+          <Grid item xs={12}>
+            <TextField
+              type="text"
+              name="investmentName"
+              label="Nome do Investimento"
+              inputRef={register({ required: true })}
+              variant="outlined"
+              size="small"
+              fullWidth
+              error={!!errors.investmentName}
+              id="investment-name"
             />
-            {errors.startDate && (
-              <span data-testid="error-msg-1">Start date is required</span>
-            )}
-          </div>
+          </Grid>
 
-          <div>
-            <label htmlFor="end-date">Data Final</label>
-            <input
-              type="date"
-              name="endDate"
-              id="end-date"
-              ref={register({ required: true })}
+          <Grid item container xs={12} spacing={1}>
+            <Grid item xs={6}>
+              <TextField
+                type="date"
+                name="startDate"
+                label="Data de Início"
+                InputLabelProps={{
+                  shrink: true,
+                }}
+                inputRef={register({ required: true })}
+                variant="outlined"
+                size="small"
+                fullWidth
+                error={!!errors.startDate}
+                id="start-date"
+              />
+            </Grid>
+
+            <Grid item xs={6}>
+              <TextField
+                type="date"
+                name="endDate"
+                label="Data Final"
+                InputLabelProps={{
+                  shrink: true,
+                }}
+                inputRef={register({ required: true })}
+                variant="outlined"
+                size="small"
+                fullWidth
+                error={!!errors.endDate}
+                id="end-date"
+              />
+            </Grid>
+          </Grid>
+
+          <Grid item container xs={12} spacing={1}>
+            <Grid item xs={4}>
+              <TextField
+                type="number"
+                name="rate"
+                label="Taxa mensal"
+                inputProps={{
+                  step: "0.01",
+                  min: "0",
+                  max: "100",
+                }}
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">%</InputAdornment>
+                  ),
+                }}
+                InputLabelProps={{
+                  shrink: true,
+                }}
+                inputRef={register({ required: true })}
+                variant="outlined"
+                size="small"
+                fullWidth
+                error={!!errors.rate}
+                id="rate"
+              />
+            </Grid>
+
+            <Grid item xs={8}>
+              <TextField
+                type="number"
+                name="monthInvestment"
+                label="Investimento Mensal"
+                inputRef={register({ required: true })}
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">R$</InputAdornment>
+                  ),
+                }}
+                variant="outlined"
+                size="small"
+                fullWidth
+                error={!!errors.monthInvestment}
+                id="month-investment"
+              />
+            </Grid>
+          </Grid>
+
+          <Grid item xs={12}>
+            <TextField
+              type="number"
+              name="presentValue"
+              label="Valor atual (opcional)"
+              inputRef={register}
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">R$</InputAdornment>
+                ),
+              }}
+              variant="outlined"
+              size="small"
+              fullWidth
+              id="present-value"
             />
-            {errors.endDate && (
-              <span data-testid="error-msg">End date is required</span>
-            )}
-          </div>
-        </Box>
+          </Grid>
 
-        <div>
-          <label htmlFor="rate">Taxa mensal em %</label>
-          <input
-            type="number"
-            name="rate"
-            step="0.01"
-            min="0"
-            max="100"
-            id="rate"
-            ref={register({ required: true })}
-          />
-          {errors.rate && <span data-testid="error-msg">Rate is required</span>}
-        </div>
-
-        <div>
-          <label htmlFor="actual-value">Investimento mensal</label>
-          <input
-            type="number"
-            name="monthInvestment"
-            id="actual-value"
-            ref={register({ required: true })}
-          />
-          {errors.monthInvestment && (
-            <span data-testid="error-msg">Month investment is required</span>
-          )}
-        </div>
-
-        <div>
-          <label htmlFor="present-value">Valor atual</label>
-          <input
-            type="number"
-            name="presentValue"
-            id="present-value"
-            ref={register}
-          />
-        </div>
-
-        <div>
-          <button disabled={!!Object.keys(errors).length}>Calculate</button>
-        </div>
+          <Grid item xs={12}>
+            <Button
+              type="submit"
+              variant="contained"
+              color="primary"
+              size="large"
+              fullWidth
+              disableElevation
+            >
+              Calcular
+            </Button>
+          </Grid>
+        </Grid>
       </FormStyled>
-    </div>
+    </>
   );
 };
 
