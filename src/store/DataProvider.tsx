@@ -1,10 +1,7 @@
 import React, { useReducer } from "react";
-import { InvestmentData } from "types";
+import { InvestmentInputs } from "types";
 
-interface Actions {
-  type: string;
-  payload: InvestmentData;
-}
+type Actions = { type: "ADD_DATA"; payload: InvestmentInputs };
 
 interface InitialState {
   state: any;
@@ -17,10 +14,14 @@ const initialState: any = {
   initialInvestment: 0,
   monthInvestment: 0,
   futureValue: 0,
-  grossProfit: 0,
+  profit: 0,
   irPercent: 0,
   irValue: 0,
   netProfit: 0,
+  isCalculated: false,
+  startDate: null,
+  endDate: null,
+  presentValue: 0,
 };
 
 const DataContext = React.createContext(initialState);
