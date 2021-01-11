@@ -1,5 +1,5 @@
 import React from "react";
-import Header from "./Header";
+import Menu from "./Menu";
 
 type LayoutProps = {
   children: React.ReactNode;
@@ -8,7 +8,7 @@ type LayoutProps = {
 const Layout = ({ children }: LayoutProps) => {
   return (
     <>
-      <Header />
+      <Menu />
       <main>{children}</main>
     </>
   );

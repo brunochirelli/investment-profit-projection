@@ -1,10 +1,11 @@
 import React from "react";
-import InvestmentForm from "./InvestmentForm";
+import FutureValueForm from "./FutureValueForm";
 import { render, fireEvent, waitFor, screen } from "@testing-library/react";
 
 describe("InvestementForm do basic functionality", () => {
   beforeEach(() => {
-    render(<InvestmentForm />);
+    const collapseForm = jest.fn();
+    render(<FutureValueForm collapseForm={collapseForm} />);
   });
 
   it("should display error when required fields are empty", async () => {

@@ -4,8 +4,8 @@ import { Box, Button, Collapse, Container, useTheme } from "@material-ui/core";
 
 import { DataContext } from "store/DataProvider";
 
-import Investment from "components/Investment";
-import InvestmentForm from "../components/InvestmentForm";
+import FutureValueResult from "components/FutureValueResult";
+import FutureValueForm from "../components/FutureValueForm";
 import Layout from "components/Layout";
 
 const Home = () => {
@@ -22,7 +22,7 @@ const Home = () => {
 
   return (
     <Layout>
-      <Container maxWidth="xs">
+      <Container maxWidth="sm">
         {expanded ? null : (
           <Box
             width="100%"
@@ -37,9 +37,9 @@ const Home = () => {
           </Box>
         )}
         <Collapse in={expanded}>
-          <InvestmentForm collapseForm={setExpanded} />
+          <FutureValueForm collapseForm={setExpanded} />
         </Collapse>
-        <Investment state={state} />
+        <FutureValueResult state={state} />
       </Container>
     </Layout>
   );

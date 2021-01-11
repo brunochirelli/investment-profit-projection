@@ -6,7 +6,7 @@ import { InvestmentInputs } from "types";
 import { futureValue, incomeTaxCalculator } from "utils/formulas";
 import { dayDiff, monthDiff } from "utils/utils";
 
-import { FormStyled } from "./InvestmentForm.styled";
+import { FormStyled } from "./FutureValueForm.styled";
 
 /**
  * @component
@@ -75,88 +75,82 @@ const DataForm = ({ collapseForm }: DataFormProps) => {
             />
           </Grid>
 
-          <Grid item container xs={12} spacing={1}>
-            <Grid item xs={6}>
-              <TextField
-                type="date"
-                name="startDate"
-                label="Data de Início"
-                InputLabelProps={{
-                  shrink: true,
-                }}
-                inputRef={register({ required: true })}
-                variant="outlined"
-                size="small"
-                fullWidth
-                error={!!errors.startDate}
-                id="start-date"
-              />
-            </Grid>
-
-            <Grid item xs={6}>
-              <TextField
-                type="date"
-                name="endDate"
-                label="Data Final"
-                InputLabelProps={{
-                  shrink: true,
-                }}
-                inputRef={register({ required: true })}
-                variant="outlined"
-                size="small"
-                fullWidth
-                error={!!errors.endDate}
-                id="end-date"
-              />
-            </Grid>
+          <Grid item xs={12}>
+            <TextField
+              type="date"
+              name="startDate"
+              label="Data de Início"
+              InputLabelProps={{
+                shrink: true,
+              }}
+              inputRef={register({ required: true })}
+              variant="outlined"
+              size="small"
+              fullWidth
+              error={!!errors.startDate}
+              id="start-date"
+            />
           </Grid>
 
-          <Grid item container xs={12} spacing={1}>
-            <Grid item xs={4}>
-              <TextField
-                type="number"
-                name="rate"
-                label="Taxa mensal"
-                inputProps={{
-                  step: "0.01",
-                  min: "0",
-                  max: "100",
-                }}
-                InputProps={{
-                  endAdornment: (
-                    <InputAdornment position="end">%</InputAdornment>
-                  ),
-                }}
-                InputLabelProps={{
-                  shrink: true,
-                }}
-                inputRef={register({ required: true })}
-                variant="outlined"
-                size="small"
-                fullWidth
-                error={!!errors.rate}
-                id="rate"
-              />
-            </Grid>
+          <Grid item xs={12}>
+            <TextField
+              type="date"
+              name="endDate"
+              label="Data Final"
+              InputLabelProps={{
+                shrink: true,
+              }}
+              inputRef={register({ required: true })}
+              variant="outlined"
+              size="small"
+              fullWidth
+              error={!!errors.endDate}
+              id="end-date"
+            />
+          </Grid>
 
-            <Grid item xs={8}>
-              <TextField
-                type="number"
-                name="monthInvestment"
-                label="Investimento Mensal"
-                inputRef={register({ required: true })}
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">R$</InputAdornment>
-                  ),
-                }}
-                variant="outlined"
-                size="small"
-                fullWidth
-                error={!!errors.monthInvestment}
-                id="month-investment"
-              />
-            </Grid>
+          <Grid item xs={12}>
+            <TextField
+              type="number"
+              name="rate"
+              label="Taxa mensal"
+              inputProps={{
+                step: "0.01",
+                min: "0",
+                max: "100",
+              }}
+              InputProps={{
+                endAdornment: <InputAdornment position="end">%</InputAdornment>,
+              }}
+              InputLabelProps={{
+                shrink: true,
+              }}
+              inputRef={register({ required: true })}
+              variant="outlined"
+              size="small"
+              fullWidth
+              error={!!errors.rate}
+              id="rate"
+            />
+          </Grid>
+
+          <Grid item xs={12}>
+            <TextField
+              type="number"
+              name="monthInvestment"
+              label="Investimento Mensal"
+              inputRef={register({ required: true })}
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">R$</InputAdornment>
+                ),
+              }}
+              variant="outlined"
+              size="small"
+              fullWidth
+              error={!!errors.monthInvestment}
+              id="month-investment"
+            />
           </Grid>
 
           <Grid item xs={12}>
