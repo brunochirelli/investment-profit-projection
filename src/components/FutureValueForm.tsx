@@ -1,6 +1,15 @@
-import { Button, Grid, InputAdornment, TextField } from "@material-ui/core";
 import React, { useContext } from "react";
 import { useForm } from "react-hook-form";
+
+import {
+  Button,
+  Container,
+  Grid,
+  InputAdornment,
+  TextField,
+  Typography,
+} from "@material-ui/core";
+
 import { DataContext } from "store/DataProvider";
 import { InvestmentInputs } from "types";
 import { futureValue, incomeTaxCalculator } from "utils/formulas";
@@ -12,15 +21,15 @@ import { FormStyled } from "./FutureValueForm.styled";
  * @component
  */
 
-type DataFormProps = {
-  collapseForm: (expanded: boolean) => void;
+type FutureValueProps = {
+  toggle: () => void;
 };
 
-const DataForm = ({ collapseForm }: DataFormProps) => {
-  const { dispatch } = useContext(DataContext);
+const FutureValueForm = ({ toggle }: FutureValueProps) => {
+  const { dispatch, state } = useContext(DataContext);
 
   const { register, handleSubmit, errors } = useForm<InvestmentInputs>({
-    defaultValues: { presentValue: 0 },
+    defaultValues: { ...state, presentValue: 0 },
   });
 
   const onSubmit = (data: InvestmentInputs) => {
@@ -41,6 +50,8 @@ const DataForm = ({ collapseForm }: DataFormProps) => {
     // Net profit
     const netProfit = fv - irValue;
 
+    toggle();
+
     dispatch({
       type: "ADD_DATA",
       payload: {
@@ -53,28 +64,18 @@ const DataForm = ({ collapseForm }: DataFormProps) => {
         isCalculated: true,
       },
     });
-
-    collapseForm(false);
   };
 
   return (
-    <>
+    <Container style={{ paddingTop: "1rem" }}>
+      <Typography variant="h4" gutterBottom>
+        Future Value
+      </Typography>
+      <Typography>
+        Calcule o valor de um investimento em determinado período.
+      </Typography>
       <FormStyled onSubmit={handleSubmit(onSubmit)}>
         <Grid container spacing={2}>
-          <Grid item xs={12}>
-            <TextField
-              type="text"
-              name="investmentName"
-              label="Nome do Investimento"
-              inputRef={register({ required: true })}
-              variant="outlined"
-              size="small"
-              fullWidth
-              error={!!errors.investmentName}
-              id="investment-name"
-            />
-          </Grid>
-
           <Grid item xs={12}>
             <TextField
               type="date"
@@ -185,8 +186,8 @@ const DataForm = ({ collapseForm }: DataFormProps) => {
           </Grid>
         </Grid>
       </FormStyled>
-    </>
+    </Container>
   );
 };
 
-export default DataForm;
+export default FutureValueForm;
