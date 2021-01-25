@@ -1,26 +1,15 @@
-import React from "react";
+import React, { useContext } from "react";
 
 import { Box, Typography } from "@material-ui/core";
 
-import { InvestmentInputs } from "types";
 import { numberToCurrency } from "utils/utils";
+import { DataContext } from "store/DataProvider";
 
-type InvestmentProps = {
-  state: InvestmentInputs;
-};
+const FutureValueResult = () => {
+  const { state } = useContext(DataContext);
 
-const Investment = ({ state }: InvestmentProps) => {
   return (
     <Box>
-      {!!state.investmentName && (
-        <Box>
-          <Typography variant="caption">Nome do Investimento</Typography>
-          <Typography variant="h6" gutterBottom>
-            {state.investmentName}
-          </Typography>
-        </Box>
-      )}
-
       {!!state.monthInvestment && (
         <Box>
           <Typography variant="caption">Investimento Mensal</Typography>
@@ -80,4 +69,4 @@ const Investment = ({ state }: InvestmentProps) => {
   );
 };
 
-export default Investment;
+export default FutureValueResult;
