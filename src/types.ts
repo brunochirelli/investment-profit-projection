@@ -1,5 +1,5 @@
 export type InvestmentData = {
-  investmentName: string;
+  investmentName?: string;
   rate: number;
   initialInvestment: number;
   monthInvestment: number;
@@ -10,18 +10,15 @@ export type InvestmentData = {
   netProfit: number;
 };
 
-export type InvestmentInputs = {
-  investmentName: string;
-  rate: number;
-  initialInvestment: number;
-  monthInvestment: number;
+export interface InvestmentInputs extends InvestmentData {
   presentValue: number;
   startDate: Date;
   endDate: Date;
-  futureValue: number;
-  profit: number;
-  irPercent: number;
-  irValue: number;
-  netProfit: number;
   isCalculated: boolean;
+}
+
+export type ResolverProps = {
+  calculator: string;
+  children?: React.ReactNode;
+  state?: InvestmentInputs;
 };
