@@ -11,63 +11,12 @@ import {
 } from "@material-ui/core";
 
 import { Menu } from "@material-ui/icons";
+import MenuContent from "./MenuContent";
 
 type HeaderProps = {
   open: boolean;
   toggleMenu: () => void;
 };
-
-/**
- * The menu inner content
- * Both of screens is made with this component
- *
- * @component
- */
-const MenuContent = () => {
-  const menu = [
-    { name: "Home", link: "/" },
-    { name: "Future Value", link: "/future-value" },
-  ];
-
-  return (
-    <MenuStyled>
-      <div></div>
-      <ul>
-        {menu.map((el) => (
-          <li key={el.link}>
-            <Link to={el.link}>{el.name}</Link>
-          </li>
-        ))}
-      </ul>
-      <div></div>
-    </MenuStyled>
-  );
-};
-
-const MenuStyled = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  height: 90vh;
-  padding: 1rem;
-  color: ${({ theme }) => theme.palette.secondary.main};
-  background: ${({ theme }) => theme.palette.primary.main};
-
-  ul {
-    margin: 0;
-    padding: 0;
-
-    li {
-      list-style-type: none;
-
-      a {
-        color: inherit;
-        font-size: 2rem;
-        text-decoration: none;
-      }
-    }
-  }
-`;
 
 /**
  * Header Component
@@ -89,7 +38,7 @@ const Header = ({ open, toggleMenu }: HeaderProps) => {
   return (
     <HeaderStyled id="header">
       {mdUp ? (
-        <MenuContent />
+        <MenuContent toggle={toggleMenu} />
       ) : (
         <>
           <Typography className="logo" component={Link} to="/">
@@ -106,7 +55,7 @@ const Header = ({ open, toggleMenu }: HeaderProps) => {
             open={open}
             onClose={toggleMenu}
           >
-            <MenuContent />
+            <MenuContent toggle={toggleMenu} />
           </Drawer>
         </>
       )}
