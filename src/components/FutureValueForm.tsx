@@ -5,6 +5,7 @@ import {
   Button,
   Container,
   Grid,
+  Hidden,
   InputAdornment,
   TextField,
   Typography,
@@ -50,8 +51,10 @@ const FutureValueForm = ({ toggle }: FutureValueProps) => {
     // Net profit
     const netProfit = fv - irValue;
 
+    // Toggle the menu...
     toggle();
 
+    // ...and dispatch the data
     dispatch({
       type: "ADD_DATA",
       payload: {
@@ -64,6 +67,11 @@ const FutureValueForm = ({ toggle }: FutureValueProps) => {
         isCalculated: true,
       },
     });
+  };
+
+  const handleFormClose = (e: React.MouseEvent<HTMLElement>) => {
+    e.preventDefault();
+    toggle();
   };
 
   return (
@@ -183,6 +191,16 @@ const FutureValueForm = ({ toggle }: FutureValueProps) => {
             >
               Calcular
             </Button>
+            <Hidden mdUp>
+              <Button
+                color="primary"
+                size="large"
+                fullWidth
+                onClick={handleFormClose}
+              >
+                Cancelar
+              </Button>
+            </Hidden>
           </Grid>
         </Grid>
       </FormStyled>

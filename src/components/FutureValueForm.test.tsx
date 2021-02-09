@@ -5,7 +5,7 @@ import { render, fireEvent, waitFor, screen } from "@testing-library/react";
 describe("InvestementForm do basic functionality", () => {
   beforeEach(() => {
     const collapseForm = jest.fn();
-    render(<FutureValueForm collapseForm={collapseForm} />);
+    render(<FutureValueForm toggle={collapseForm} />);
   });
 
   it("should display error when required fields are empty", async () => {

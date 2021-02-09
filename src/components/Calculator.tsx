@@ -27,6 +27,7 @@ const Calculator = ({ id, open, toggle, form: Form }: CalculatorProps) => {
   return (
     <section id={id}>
       {mdUp ? (
+        // form forward
         <Form state={state} toggle={toggle} />
       ) : (
         <CalculatorStyled>
